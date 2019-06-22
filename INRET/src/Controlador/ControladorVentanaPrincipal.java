@@ -1,5 +1,6 @@
 package Controlador;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -7,11 +8,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
+import Modelo.Constantes;
 import Modelo.Documentos;
 import Vista.Principal;
 
@@ -23,9 +24,12 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 		this.ventana = ventana;
 
 		this.ventana.iconocarpeta.addMouseListener(this);
+		this.ventana.tablaDocumentosDisponibles.addMouseListener(this);
 	}
 	
 	public void Inicializar(){
+		ventana.tablaDocumentosDisponibles.setModel(doc.modeloTabla());
+
 		ventana.setLocationRelativeTo(null);
 		ventana.setVisible(true);
 		ventana.setBounds(100, 100, 1000, 650);
@@ -49,13 +53,20 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		
 		if(e.getSource() == ventana.iconocarpeta) {
-			JFileChooser jf = new JFileChooser();
-			jf.setDialogTitle("Seleccione Archivo");
-			jf.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			jf.showOpenDialog(null);
-			doc.Cargar(jf.getSelectedFile());
-			
+			try {
+				Desktop.getDesktop().open(new File(Constantes.DirectorioDocumentos));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		if(e.getSource() == ventana.tablaDocumentosDisponibles) {
+			if(e.getClickCount() == 1) {}
+			if(e.getClickCount() == 2) {
+				doc.AbrirDocumento(doc.lista.get(ventana.tablaDocumentosDisponibles.getSelectedRow()), new File(Constantes.DirectorioDocumentos));
+				
+			}
 		}
 	}
 

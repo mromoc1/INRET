@@ -1,28 +1,59 @@
 package Modelo;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.table.DefaultTableModel;
+
 public class Documentos {
-	public String url;
-	public ArrayList<File> listadocumentos;
+	public ArrayList<String> lista = new ArrayList<String>();
 	
-	public ArrayList<File> Cargar(File archivo) {
-		listadocumentos = new ArrayList<File>();
-		url = archivo.getAbsolutePath();
+	public DefaultTableModel modeloTabla() {
+		lista.clear();
+		CargarLista(new File(Constantes.DirectorioDocumentos));
 		
+		ModeloTabla modelo = new ModeloTabla();
 		
+		modelo.addColumn("Total Documentos: "+lista.size());
+		String[] test = new String[1];
+		
+		for(int i = 0; i< lista.size();i++) {
+			test[0] = lista.get(i);
+			modelo.addRow(test);
+		}
+		return modelo;
+	}
+	
+	public void CargarLista(File archivo) {
 		for (final File ficheroEntrada : archivo.listFiles()) {
-	        if (ficheroEntrada.isDirectory()) {
-	            Cargar(ficheroEntrada);
-	        } else {
+			if (ficheroEntrada.isDirectory()) {
+				CargarLista(ficheroEntrada);
+	        }else{
 	        	String nombre = ficheroEntrada.getName();
 	        	if(nombre.endsWith(".pdf") || nombre.endsWith(".PDF") ) {
-	        		listadocumentos.add(ficheroEntrada);
+	        		lista.add(nombre);
 	        	}
 	        }
 	    }
-		return listadocumentos;
+	}
+	
+	public void AbrirDocumento (String Documento,File archivo) {
+		for (final File ficheroEntrada : archivo.listFiles()) {
+			if (ficheroEntrada.isDirectory()) {
+				AbrirDocumento(Documento,ficheroEntrada);
+	        }else{
+	        	String nombre = ficheroEntrada.getName();
+	        	if(nombre.equals(Documento)) {
+	        		try {
+						Desktop.getDesktop().open(ficheroEntrada);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+	        	}
+	        }
+	    }
 	}
 	
 }
