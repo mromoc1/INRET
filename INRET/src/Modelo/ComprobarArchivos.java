@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 public class ComprobarArchivos {
 	
 	public ComprobarArchivos() {
+		//Directorio indice se debe crear denuevo para hacer 
 		DirectorioIndice();
 		DirectorioDocumentos();
 	}

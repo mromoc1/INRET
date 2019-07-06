@@ -8,7 +8,10 @@ import Vista.Principal;
 
 public class Main {
 	public static void main(String[] args){
+		//1.- Comprobamos los directorios que utilizará el software
 		ComprobarArchivos directorios = new ComprobarArchivos();
+		
+		//2.- Se indexan los documentos
 		Carga ventanacarga = new Carga();
 		ControladorVentanaCarga controladorventanacarga = new ControladorVentanaCarga(ventanacarga);
 		controladorventanacarga.Inicializar();
