@@ -2,8 +2,12 @@ package Modelo;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
+
+import javax.swing.JProgressBar;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -58,13 +62,51 @@ public class Indexador {
 		indice.addDocument(documento);
 	}
 	
-	public void crearIndice() throws IOException{
-		File[] archivos = new File(Constantes.DirectorioDocumentos).listFiles();
-		for(File archivo : archivos) {
-			if(!archivo.isDirectory() && !archivo.isHidden() && archivo.exists() && archivo.canRead()) {
-				indexarArchivo(archivo);
+	public void crearIndice(JProgressBar barra) throws IOException{
+		double porcentaje;	
+		for(int i = 0; i < Constantes.ListaDocumentosAlmacenados.size() ; i++) {
+			if(!FueIndexado(Constantes.ListaDocumentosAlmacenados.get(i).getName())) { //Comprueba si el documento ya fue indexado.
+				indexarArchivo(Constantes.ListaDocumentosAlmacenados.get(i));
+				
+				File f = new File(Constantes.ArchivosIndexados);
+				FileWriter fw = new FileWriter(f,true);
+				PrintWriter pw = new PrintWriter(fw);
+				pw.println(Constantes.ListaDocumentosAlmacenados.get(i).getName());
+				pw.close();
+				
+				
+				
+				
+				porcentaje= ((double)(i+1)/((double)Constantes.ListaDocumentosAlmacenados.size()-(double)Constantes.ListaDocumentosIndexados.size())*100);
+				barra.setValue((int)porcentaje);
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {e.printStackTrace();}
+				
 			}
 		}
+		//Segmento de codigo que recorre poco a poco la barra de progreso.
+		/*while(actual <= porcentaje) {
+			barra.setValue((int)actual);
+			actual += 1;
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}*/
 	}
+	
+	public Boolean FueIndexado(String nombredocumento) {
+		for(int i=0; i < Constantes.ListaDocumentosIndexados.size(); i++) {
+			if(Constantes.ListaDocumentosIndexados.get(i).equals(nombredocumento)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	
 }

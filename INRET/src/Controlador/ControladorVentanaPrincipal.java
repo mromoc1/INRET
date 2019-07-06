@@ -12,13 +12,14 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
+import Modelo.Almacenamiento;
 import Modelo.Constantes;
-import Modelo.Documentos;
+import Modelo.ModeloTabla;
 import Vista.Principal;
 
 public class ControladorVentanaPrincipal implements ActionListener,KeyListener,MouseListener {
 	Principal ventana;
-	Documentos doc = new Documentos();
+	Almacenamiento almacenamiento = new Almacenamiento();
 	
 	public ControladorVentanaPrincipal(Principal ventana) {
 		this.ventana = ventana;
@@ -29,11 +30,22 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 	}
 	
 	public void Inicializar(){
-		//ventana.tablaDocumentosDisponibles.setModel(doc.modeloTabla());
+		
+		ModeloTabla modelo = new ModeloTabla();
+		modelo.addColumn("Total Documentos: "+Constantes.ListaDocumentosAlmacenados.size());
+		String[] test = new String[1];
+		
+		for(int i = 0; i< Constantes.ListaDocumentosAlmacenados.size();i++) {
+			test[0] = Constantes.ListaDocumentosAlmacenados.get(i).getName();
+			modelo.addRow(test);
+		}
+		
+		ventana.tablaAlmacenamiento.setModel(modelo);
+		
 
 		ventana.setLocationRelativeTo(null);
 		ventana.setVisible(true);
-		ventana.setBounds(100, 100, 1000, 650);
+		ventana.setSize(1000, 650);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -49,14 +61,14 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 		if(e.getSource() == ventana.tablaAlmacenamiento) {
 			if(e.getClickCount() == 1) {}
 			if(e.getClickCount() == 2) {
-				doc.AbrirDocumento(doc.lista.get(ventana.tablaAlmacenamiento.getSelectedRow()), new File(Constantes.DirectorioDocumentos));
+				almacenamiento.AbrirDocumento(Constantes.ListaDocumentosAlmacenados.get(ventana.tablaAlmacenamiento.getSelectedRow()).getName(), new File(Constantes.DirectorioDocumentos));
 				
 			}
 		}
 		if(e.getSource() == ventana.tablaEncontrados) {
 			if(e.getClickCount() == 1) {}
 			if(e.getClickCount() == 2) {
-				doc.AbrirDocumento(doc.lista.get(ventana.tablaEncontrados.getSelectedRow()), new File(Constantes.DirectorioDocumentos));
+				almacenamiento.AbrirDocumento(Constantes.ListaDocumentosAlmacenados.get(ventana.tablaEncontrados.getSelectedRow()).getName(), new File(Constantes.DirectorioDocumentos));
 				
 			}
 		}

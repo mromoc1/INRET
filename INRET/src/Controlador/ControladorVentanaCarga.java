@@ -1,13 +1,9 @@
 package Controlador;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import Modelo.ComprobarArchivos;
-import Modelo.Constantes;
-import Modelo.Documentos;
 import Modelo.Indexador;
 import Vista.Carga;
 
@@ -17,28 +13,28 @@ public class ControladorVentanaCarga {
 	
 	public ControladorVentanaCarga(Carga ventana) {
 		this.ventana = ventana;
+		ventana.progressBar.setValue(0);
 	}
 	
+	/**
+	 * Metodo que inicializa la ventana de carga e indexacion
+	 */
 	public void Inicializar() {
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ventana.setBounds(100, 100, 497, 193);
+		ventana.setSize(497, 193);
 		ventana.setUndecorated(true);
 		ventana.setLocationRelativeTo(null);
 		ventana.setVisible(true);
 		
 		try {
-			CrearIndice();
+			indexador = new Indexador();
+			indexador.crearIndice(ventana.progressBar);
+			indexador.cerrar();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-	}
-	
-	public void CrearIndice() throws IOException {
-		indexador = new Indexador();
-		indexador.crearIndice();
-		indexador.cerrar();
 	}
 
 }
