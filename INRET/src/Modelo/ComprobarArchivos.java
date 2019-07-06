@@ -18,17 +18,14 @@ public class ComprobarArchivos {
 	}
 
 	public void DirectorioIndice() {
+		
 		File c = new File(Constantes.DirectorioIndices);
-		if(!c.exists()) {
-			JOptionPane.showMessageDialog(null, "CREADO");
-			c.mkdirs();
-		}
+		c.mkdirs();
 	}
 	
 	public void DirectorioDocumentos() {
 		File c = new File(Constantes.DirectorioDocumentos);
 		if(!c.exists()) {
-			JOptionPane.showMessageDialog(null, "CREADO");
 			c.mkdirs();
 		}
 	}
