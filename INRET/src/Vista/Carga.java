@@ -36,17 +36,15 @@ public class Carga extends JFrame {
 		getContentPane().add(panel_2);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(58, 29, 381, 98);
+		panel_3.setBounds(58, 0, 381, 127);
 		getContentPane().add(panel_3);
 		panel_3.setLayout(new BorderLayout(0, 0));
 		
-		JLabel label = new JLabel("");
-		panel_3.add(label, BorderLayout.WEST);
-		label.setIcon(new ImageIcon("C:\\Users\\M\\git\\INRET\\INRET\\src\\Imagenes\\Logo app\\hexagon_eye_center_server_networking_icon-icons.com_59973.png"));
-		
-		JLabel lblBienvenido = new JLabel("Bienvenido");
-		panel_3.add(lblBienvenido, BorderLayout.CENTER);
-		lblBienvenido.setFont(Titulof);
+		JLabel lblBienvenido_1 = new JLabel("Bienvenido ");
+		lblBienvenido_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBienvenido_1.setFont(Titulof);
+		panel_3.add(lblBienvenido_1, BorderLayout.CENTER);
+		lblBienvenido_1.setIcon(new ImageIcon(getClass().getResource("/Imagenes/Logo app/hexagon_eye_center_server_networking_icon-icons.com_59973.png")));
 		
 		JLabel lblPorfavorEspereMientras = new JLabel("Porfavor espere mientras se configura");
 		lblPorfavorEspereMientras.setHorizontalAlignment(SwingConstants.CENTER);

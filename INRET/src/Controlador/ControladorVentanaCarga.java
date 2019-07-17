@@ -1,4 +1,4 @@
-package Controlador;
+ package Controlador;
 
 import java.io.IOException;
 
@@ -31,7 +31,6 @@ public class ControladorVentanaCarga {
 			indexador.crearIndice(ventana.progressBar);
 			indexador.cerrar();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

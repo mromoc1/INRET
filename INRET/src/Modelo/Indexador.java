@@ -21,7 +21,7 @@ public class Indexador {
 	private IndexWriter indice;
 	
 	public Indexador() throws IOException {
-		Directory DirectorioIndice = FSDirectory.open(Paths.get(Constantes.DirectorioIndices));
+		Directory DirectorioIndice = FSDirectory.open(Paths.get(Constantes.DirectorioIndice));
 		StandardAnalyzer analizador = new StandardAnalyzer();
 		IndexWriterConfig iwc = new IndexWriterConfig(analizador);
 		indice = new IndexWriter(DirectorioIndice, iwc);
@@ -62,6 +62,11 @@ public class Indexador {
 		indice.addDocument(documento);
 	}
 	
+	/**
+	 * A medida que indexa la barra se irá rellenando
+	 * @param barra
+	 * @throws IOException
+	 */
 	public void crearIndice(JProgressBar barra) throws IOException{
 		double porcentaje;	
 		for(int i = 0; i < Constantes.ListaDocumentosAlmacenados.size() ; i++) {
@@ -73,10 +78,7 @@ public class Indexador {
 				PrintWriter pw = new PrintWriter(fw);
 				pw.println(Constantes.ListaDocumentosAlmacenados.get(i).getName());
 				pw.close();
-				
-				
-				
-				
+		
 				porcentaje= ((double)(i+1)/((double)Constantes.ListaDocumentosAlmacenados.size()-(double)Constantes.ListaDocumentosIndexados.size())*100);
 				barra.setValue((int)porcentaje);
 				try {
@@ -85,17 +87,6 @@ public class Indexador {
 				
 			}
 		}
-		//Segmento de codigo que recorre poco a poco la barra de progreso.
-		/*while(actual <= porcentaje) {
-			barra.setValue((int)actual);
-			actual += 1;
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
 	}
 	
 	public Boolean FueIndexado(String nombredocumento) {

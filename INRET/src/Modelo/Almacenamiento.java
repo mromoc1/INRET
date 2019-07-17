@@ -16,7 +16,7 @@ public class Almacenamiento {
 	 */
 	
 	public void ComprobarEstado() {
-		File f = new File(Constantes.DirectorioIndices);
+		File f = new File(Constantes.DirectorioIndice);
 		if(!f.exists()) {
 			f.mkdirs();
 		}

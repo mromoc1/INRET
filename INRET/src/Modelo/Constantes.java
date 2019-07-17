@@ -3,11 +3,12 @@ package Modelo;
 import java.io.File;
 import java.util.ArrayList;
 
+
 public class Constantes {
 
 	public static final String ArchivosIndexados = "archivosindexados.txt";
 	public static final String DirectorioDocumentos = "Documentos";
-	public static final String DirectorioIndices = "Indices";
+	public static final String DirectorioIndice = "Indice";
 	public static final String ContenidoArchivo = "contenidoarchivo";
 	public static final String NombreArchivo = "nombrearchivo";
 	public static final String RutaArchivo = "rutaarchivo";
