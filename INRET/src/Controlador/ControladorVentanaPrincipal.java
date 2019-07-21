@@ -11,16 +11,20 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 
 import Modelo.Almacenamiento;
 import Modelo.Buscador;
+import Modelo.BuscarEnDocumento;
 import Modelo.Constantes;
 import Modelo.ModeloTabla;
+import Vista.Informaciones;
 import Vista.Principal;
 
 public class ControladorVentanaPrincipal implements ActionListener,KeyListener,MouseListener {
+	//String palabrabuscada;
 	Principal ventana;
 	Almacenamiento almacenamiento = new Almacenamiento();
 	
@@ -44,8 +48,9 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 		this.ventana.boton10.addActionListener(this);
 		this.ventana.boton11.addActionListener(this);
 		this.ventana.boton12.addActionListener(this);
+		this.ventana.boton13.addActionListener(this);
 		
-		
+		this.ventana.iconoinformacion.addMouseListener(this);
 	}
 	
 	public void Inicializar(){
@@ -70,6 +75,17 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 	
 	public void mouseClicked(MouseEvent e) {
 		
+		/**
+		 * ACCION CLICK EN BOTON INFORMACIONES
+		 */
+		if(e.getSource() == ventana.iconoinformacion) {
+				Informaciones ventana = new Informaciones();
+				ControladorVentanaInformaciones controlador = new ControladorVentanaInformaciones(ventana);
+				controlador.inicializar();
+		}
+		/**
+		 * ACCION CLICK EN BOTON CARPETA
+		 */
 		if(e.getSource() == ventana.iconocarpeta) {
 			try {
 				Desktop.getDesktop().open(new File(Constantes.DirectorioDocumentos));
@@ -77,6 +93,9 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 				e1.printStackTrace();
 			}
 		}
+		/**
+		 * ACCION TABLA DE DOCUMENTOS
+		 */
 		if(e.getSource() == ventana.tablaAlmacenamiento) {
 			if(e.getClickCount() == 1) {}
 			if(e.getClickCount() == 2) {
@@ -84,15 +103,28 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 				
 			}
 		}
+		/**
+		 * ACCION TABLA DE DOCUMENTOS RECOMENDADOS
+		 */
 		if(e.getSource() == ventana.tablaEncontrados) {
 			if(e.getClickCount() == 1) {}
 			if(e.getClickCount() == 2) {
 				almacenamiento.AbrirDocumento(Constantes.ListaDocumentosBuscados.get(ventana.tablaEncontrados.getSelectedRow()), new File(Constantes.DirectorioDocumentos));
 				
+				/*for(int i = 0; i< Constantes.ListaDocumentosAlmacenados.size(); i++) {
+					if(Constantes.ListaDocumentosAlmacenados.get(i).getName().equals(Constantes.ListaDocumentosBuscados.get(ventana.tablaEncontrados.getSelectedRow()))) {
+						BuscarEnDocumento documento = new BuscarEnDocumento();
+						documento.Buscar(palabrabuscada, Constantes.ListaDocumentosAlmacenados.get(i));
+					}
+				}*/
+				
 			}
 		}
 		
 	}
+	/**
+	 * ACCION AL PULSAR ENTER EN CAMPO DE TEXTO
+	 */
 	public void keyPressed(KeyEvent e) {
 		 if(e.getKeyCode()==KeyEvent.VK_ENTER){
 			 Buscador buscador;
@@ -100,7 +132,7 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 				buscador = new Buscador();
 				try {
 					buscador.RealizarBusqueda(this.ventana.campoBuscar.getText());
-					
+					//palabrabuscada = this.ventana.campoBuscar.getText();
 					ModeloTabla modelo = new ModeloTabla();
 					modelo.addColumn("Documentos Recomendados: "+Constantes.ListaDocumentosBuscados.size());
 					String[] test = new String[1];
@@ -116,12 +148,13 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
-			}
-			 
-         }
-		
+			} 
+		}
 	}
 	
+	/**
+	 * ACCION PANEL BOTONES DE SINTAXIS
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == ventana.boton1) {
 			String contenido = ventana.campoBuscar.getText();
@@ -131,16 +164,16 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 			ventana.campoBuscar.setText(contenido+"*");
 		}if(e.getSource() == ventana.boton3) {
 			String contenido = ventana.campoBuscar.getText();
-			ventana.campoBuscar.setText(contenido+"[ ]");
+			ventana.campoBuscar.setText(contenido+"/[ ]/");
 		}if(e.getSource() == ventana.boton4) {
 			String contenido = ventana.campoBuscar.getText();
 			ventana.campoBuscar.setText(contenido+"~");
 		}if(e.getSource() == ventana.boton5) {
 			String contenido = ventana.campoBuscar.getText();
-			ventana.campoBuscar.setText(contenido+"[ to ]");
+			ventana.campoBuscar.setText(contenido+"[ TO ]");
 		}if(e.getSource() == ventana.boton6) {
 			String contenido = ventana.campoBuscar.getText();
-			ventana.campoBuscar.setText(contenido+"^2");
+			ventana.campoBuscar.setText(contenido+"^");
 		}if(e.getSource() == ventana.boton7) {
 			String contenido = ventana.campoBuscar.getText();
 			ventana.campoBuscar.setText(contenido+"&&");
@@ -159,11 +192,11 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 		}if(e.getSource() == ventana.boton12) {
 			String contenido = ventana.campoBuscar.getText();
 			ventana.campoBuscar.setText(contenido+"\\");
+		}if(e.getSource() == ventana.boton13) {
+			String contenido = ventana.campoBuscar.getText();
+			ventana.campoBuscar.setText(contenido+"{ TO }");
 		}
 	}
-	
-	
-	
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
 	public void mouseEntered(MouseEvent e) {}

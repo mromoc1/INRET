@@ -31,7 +31,6 @@ public class Almacenamiento {
         	try {
 				f3.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
@@ -47,7 +46,7 @@ public class Almacenamiento {
 				CargarListaDocumentosAlmacenados(ficheroEntrada);
 	        }else{
 	        	String nombre = ficheroEntrada.getName();
-	        	if(nombre.endsWith(".pdf") || nombre.endsWith(".PDF") ) {
+	        	if(nombre.endsWith(".pdf") || nombre.endsWith(".txt") ) {
 	        		Constantes.ListaDocumentosAlmacenados.add(ficheroEntrada);
 	        	}
 	        }

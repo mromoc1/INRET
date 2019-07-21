@@ -20,6 +20,8 @@ import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import java.awt.Cursor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Principal extends JFrame {
 	private Font Titulof = new Font("Century Gothic", Font.PLAIN, 35);
@@ -31,7 +33,7 @@ public class Principal extends JFrame {
 	public JLabel iconocarpeta,iconoinformacion;
 	public JTable tablaAlmacenamiento,tablaEncontrados;
 	
-	public JButton boton1, boton2, boton3, boton4, boton5, boton6, boton7, boton8, boton9, boton10, boton11, boton12;
+	public JButton boton1, boton2, boton3, boton4, boton5, boton6, boton7, boton8, boton9, boton10, boton11, boton12, boton13;
 	
 	public Principal() {
 		setBounds(100, 100, 1000, 600);
@@ -163,7 +165,7 @@ public class Principal extends JFrame {
 		tablaAlmacenamiento = new JTable();
 		tablaAlmacenamiento.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		tablaAlmacenamiento.setShowVerticalLines(false);
-		tablaAlmacenamiento.setSelectionBackground(new Color(214, 0, 0));
+		tablaAlmacenamiento.setSelectionBackground(new Color(0, 191, 255));
 		tablaAlmacenamiento.setRowHeight(25);
 		tablaAlmacenamiento.setIntercellSpacing(new Dimension(0, 0));
 		tablaAlmacenamiento.setFocusable(false);
@@ -185,11 +187,11 @@ public class Principal extends JFrame {
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setLayout(new GridLayout(1, 0, 0, 0));
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBackground(new Color(249, 249, 249));
+		scrollPane.setBackground(new Color(30, 144, 255));
 		tablaEncontrados = new JTable();
 		tablaEncontrados.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		tablaEncontrados.setShowVerticalLines(false);
-		tablaEncontrados.setSelectionBackground(new Color(214, 0, 0));
+		tablaEncontrados.setSelectionBackground(new Color(0, 191, 255));
 		tablaEncontrados.setRowHeight(25);
 		tablaEncontrados.setIntercellSpacing(new Dimension(0, 0));
 		tablaEncontrados.setFocusable(false);
@@ -216,90 +218,97 @@ public class Principal extends JFrame {
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_1.setBackground(new Color(249, 249, 249));
 		panel.add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		boton1 = new JButton(" ? ");
 		panel_1.add(boton1);
 		boton1.setBorderPainted(false);
 		boton1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton1.setBackground(new Color(192, 192, 192));
-		boton1.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton1.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
 		boton2 = new JButton(" * ");
 		panel_1.add(boton2);
 		boton2.setBorderPainted(false);
 		boton2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton2.setBackground(new Color(192, 192, 192));
-		boton2.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton2.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
-		boton3 = new JButton(" [ ] ");
+		boton3 = new JButton(" /[ ]/ ");
 		panel_1.add(boton3);
 		boton3.setBorderPainted(false);
 		boton3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton3.setBackground(new Color(192, 192, 192));
-		boton3.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton3.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
 		boton4 = new JButton(" ~n ");
 		panel_1.add(boton4);
 		boton4.setBorderPainted(false);
 		boton4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton4.setBackground(new Color(192, 192, 192));
-		boton4.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton4.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
-		boton5 = new JButton(" [ to ] ");
+		boton5 = new JButton(" [ TO ] ");
 		panel_1.add(boton5);
 		boton5.setBorderPainted(false);
 		boton5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton5.setBackground(new Color(192, 192, 192));
-		boton5.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton5.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
-		boton6 = new JButton(" ^2 ");
+		boton13 = new JButton(" { TO } ");
+		boton13.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
+		boton13.setBorderPainted(false);
+		boton13.setBackground(Color.LIGHT_GRAY);
+		panel_1.add(boton13);
+		
+		boton6 = new JButton(" ^n ");
 		panel_1.add(boton6);
 		boton6.setBorderPainted(false);
 		boton6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton6.setBackground(new Color(192, 192, 192));
-		boton6.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton6.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
-		boton7 = new JButton(" && ");
+		boton7 = new JButton(" AND/&& ");
 		panel_1.add(boton7);
 		boton7.setBorderPainted(false);
 		boton7.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton7.setBackground(new Color(192, 192, 192));
-		boton7.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton7.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
-		boton8 = new JButton(" || ");
+		boton8 = new JButton(" OR/|| ");
 		panel_1.add(boton8);
 		boton8.setBorderPainted(false);
 		boton8.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton8.setBackground(new Color(192, 192, 192));
-		boton8.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton8.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
 		boton9 = new JButton(" + ");
 		panel_1.add(boton9);
 		boton9.setBorderPainted(false);
 		boton9.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton9.setBackground(new Color(192, 192, 192));
-		boton9.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton9.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
 		boton10 = new JButton(" - ");
 		panel_1.add(boton10);
 		boton10.setBorderPainted(false);
 		boton10.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton10.setBackground(new Color(192, 192, 192));
-		boton10.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton10.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
 		boton11 = new JButton(" ( ) ");
 		panel_1.add(boton11);
 		boton11.setBorderPainted(false);
 		boton11.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton11.setBackground(new Color(192, 192, 192));
-		boton11.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton11.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
 		boton12 = new JButton(" \\ ");
 		panel_1.add(boton12);
 		boton12.setBorderPainted(false);
 		boton12.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		boton12.setBackground(new Color(192, 192, 192));
-		boton12.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		boton12.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(249, 249, 249));

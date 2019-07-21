@@ -30,12 +30,13 @@ public class Buscador {
 		IndexReader lector = DirectoryReader.open(directorioindice);
 		indicebuscador = new IndexSearcher(lector);
 		analizarconsulta = new QueryParser(Constantes.ContenidoArchivo, new StandardAnalyzer());
+		
 	}
 	
 
 	public TopDocs buscar(String contenido) throws ParseException, IOException {
 		consulta = analizarconsulta.parse(contenido);
-		return indicebuscador.search(consulta,10);
+		return indicebuscador.search(consulta,30);
 	}
 	
 	public Document obtenerDocumento(ScoreDoc sd) throws IOException {
@@ -53,8 +54,19 @@ public class Buscador {
 		Constantes.ListaDocumentosBuscados.clear();
 		for(ScoreDoc sd : hits.scoreDocs) {
 			Document doc = obtenerDocumento(sd);
-			Constantes.ListaDocumentosBuscados.add(doc.get(Constantes.NombreArchivo));
+			if(EstaAlmacenado(doc.get(Constantes.NombreArchivo))) {
+				Constantes.ListaDocumentosBuscados.add(doc.get(Constantes.NombreArchivo));
+			}
 		}
+	}
+	
+	public Boolean EstaAlmacenado(String nombredocumento) {
+		for(int i=0; i < Constantes.ListaDocumentosAlmacenados.size(); i++) {
+			if(Constantes.ListaDocumentosAlmacenados.get(i).getName().equals(nombredocumento)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 

@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
 
+import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.TextField;
@@ -17,17 +19,27 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+/**
+ * Clase que permite realizar la indexacion de los documentos.
+ * @author M
+ *
+ */
 public class Indexador {
 	private IndexWriter indice;
 	
+	/**
+	 * Inicializa
+	 * @throws IOException
+	 */
 	public Indexador() throws IOException {
-		Directory DirectorioIndice = FSDirectory.open(Paths.get(Constantes.DirectorioIndice));
-		StandardAnalyzer analizador = new StandardAnalyzer();
+		Directory directorio = FSDirectory.open(Paths.get(Constantes.DirectorioIndice)); //Directorio donde se guardara lo indexado
+		StandardAnalyzer analizador = new StandardAnalyzer(); //"descompone" se podria decir el documento
+		//Analyzer analizador; //Para testear
 		IndexWriterConfig iwc = new IndexWriterConfig(analizador);
-		indice = new IndexWriter(DirectorioIndice, iwc);
+		indice = new IndexWriter(directorio, iwc);
 	}
 	
-	public void cerrar() throws IOException {
+	public void Cerrar() throws IOException {
 		indice.close();
 	}
 
@@ -56,7 +68,6 @@ public class Indexador {
 	 * @throws IOException
 	 */
 	public void indexarArchivo(File archivo) throws IOException{
-		System.out.println(""+archivo.getName());
 		Document documento;
 		documento = obtenerDocumento(archivo);
 		indice.addDocument(documento);
@@ -67,10 +78,12 @@ public class Indexador {
 	 * @param barra
 	 * @throws IOException
 	 */
-	public void crearIndice(JProgressBar barra) throws IOException{
+	public void crearIndice(JProgressBar barra, JLabel indexando) throws IOException{
 		double porcentaje;	
 		for(int i = 0; i < Constantes.ListaDocumentosAlmacenados.size() ; i++) {
-			if(!FueIndexado(Constantes.ListaDocumentosAlmacenados.get(i).getName())) { //Comprueba si el documento ya fue indexado.
+			if(!FueIndexado(Constantes.ListaDocumentosAlmacenados.get(i).getName())) { //Comprueba si el documento ya fue indexado.	
+				
+				indexando.setText("Indexando: "+Constantes.ListaDocumentosAlmacenados.get(i).getName());
 				indexarArchivo(Constantes.ListaDocumentosAlmacenados.get(i));
 				
 				File f = new File(Constantes.ArchivosIndexados);

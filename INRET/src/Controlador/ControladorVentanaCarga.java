@@ -1,10 +1,14 @@
  package Controlador;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 
+import Modelo.Almacenamiento;
+import Modelo.Constantes;
 import Modelo.Indexador;
+import Modelo.VerificarDuplicado;
 import Vista.Carga;
 
 public class ControladorVentanaCarga {
@@ -27,9 +31,17 @@ public class ControladorVentanaCarga {
 		ventana.setVisible(true);
 		
 		try {
+			Almacenamiento almacenamiento = new Almacenamiento();
+			almacenamiento.CargarListaDocumentosIndexados();
+			almacenamiento.CargarListaDocumentosAlmacenados(new File(Constantes.DirectorioDocumentos));
+			VerificarDuplicado verificar = new VerificarDuplicado();
+			if(verificar.BuscarDuplicados(Constantes.ListaDocumentosAlmacenados)) {
+				Constantes.ListaDocumentosAlmacenados.clear();
+				almacenamiento.CargarListaDocumentosAlmacenados(new File(Constantes.DirectorioDocumentos));
+			}
 			indexador = new Indexador();
-			indexador.crearIndice(ventana.progressBar);
-			indexador.cerrar();
+			indexador.crearIndice(ventana.progressBar, ventana.lblIndexando);
+			indexador.Cerrar();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

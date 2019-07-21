@@ -1,12 +1,10 @@
 package Vista;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JProgressBar;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -17,6 +15,7 @@ public class Carga extends JFrame {
 	private Font Subtitulof = new Font("Century Gothic", Font.PLAIN, 20);
 	
 	public JProgressBar progressBar;
+	public JLabel lblIndexando ;
 
 	
 	public Carga() {
@@ -24,7 +23,7 @@ public class Carga extends JFrame {
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(439, 0, 58, 192);
+		panel.setBounds(439, 0, 53, 192);
 		getContentPane().add(panel);
 		
 		JPanel panel_1 = new JPanel();
@@ -34,13 +33,20 @@ public class Carga extends JFrame {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(58, 166, 381, 26);
 		getContentPane().add(panel_2);
+		panel_2.setLayout(new BorderLayout(0, 0));
+		
+		lblIndexando = new JLabel("Indexando: ");
+		lblIndexando.setFont(new Font("Century Gothic", Font.PLAIN, 13));
+		lblIndexando.setHorizontalAlignment(SwingConstants.LEFT);
+		panel_2.add(lblIndexando);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(58, 0, 381, 127);
+		panel_3.setBounds(58, 0, 381, 133);
 		getContentPane().add(panel_3);
 		panel_3.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblBienvenido_1 = new JLabel("Bienvenido ");
+		lblBienvenido_1.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblBienvenido_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBienvenido_1.setFont(Titulof);
 		panel_3.add(lblBienvenido_1, BorderLayout.CENTER);
