@@ -11,7 +11,6 @@ public class Constantes {
 	public static final String DirectorioIndice = "Indice";
 	public static final String ContenidoArchivo = "contenidoarchivo";
 	public static final String NombreArchivo = "nombrearchivo";
-	public static final String RutaArchivo = "rutaarchivo";
 	public static ArrayList<File> ListaDocumentosAlmacenados = new ArrayList<>();
 	public static ArrayList<String> ListaDocumentosBuscados = new ArrayList<>();
 	public static ArrayList<String> ListaDocumentosIndexados = new ArrayList<>();

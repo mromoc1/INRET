@@ -165,7 +165,7 @@ public class Principal extends JFrame {
 		tablaAlmacenamiento = new JTable();
 		tablaAlmacenamiento.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		tablaAlmacenamiento.setShowVerticalLines(false);
-		tablaAlmacenamiento.setSelectionBackground(new Color(0, 191, 255));
+		tablaAlmacenamiento.setSelectionBackground(new Color(153, 204, 255));
 		tablaAlmacenamiento.setRowHeight(25);
 		tablaAlmacenamiento.setIntercellSpacing(new Dimension(0, 0));
 		tablaAlmacenamiento.setFocusable(false);
@@ -191,7 +191,7 @@ public class Principal extends JFrame {
 		tablaEncontrados = new JTable();
 		tablaEncontrados.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		tablaEncontrados.setShowVerticalLines(false);
-		tablaEncontrados.setSelectionBackground(new Color(0, 191, 255));
+		tablaEncontrados.setSelectionBackground(new Color(153, 204, 255));
 		tablaEncontrados.setRowHeight(25);
 		tablaEncontrados.setIntercellSpacing(new Dimension(0, 0));
 		tablaEncontrados.setFocusable(false);

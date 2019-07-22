@@ -1,7 +1,6 @@
 package Modelo;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,14 +9,16 @@ import java.nio.file.Paths;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 /**
  * Clase que permite realizar la indexacion de los documentos.
@@ -42,24 +43,6 @@ public class Indexador {
 	public void Cerrar() throws IOException {
 		indice.close();
 	}
-
-	/**
-	 * Metodo que descompone el documento en indices y los retorna.
-	 * @param archivo
-	 * @return
-	 * @throws IOException
-	 */
-	private Document obtenerDocumento(File archivo) throws IOException {
-		Document documento = new Document();
-		TextField contenidoArchivo =new TextField(Constantes.ContenidoArchivo, new FileReader(archivo));
-		TextField nombreArchivo = new TextField(Constantes.NombreArchivo, archivo.getName(), TextField.Store.YES);
-		TextField rutaArchivo = new TextField(Constantes.RutaArchivo, archivo.getCanonicalPath(), TextField.Store.YES);
-		
-		documento.add(contenidoArchivo);
-		documento.add(nombreArchivo);
-		documento.add(rutaArchivo);
-		return documento;
-	}
 	
 	/**
 	 * Metodo que realiza la indexacion de los archivos contenidos
@@ -68,18 +51,15 @@ public class Indexador {
 	 * @throws IOException
 	 */
 	public void indexarArchivo(File archivo) throws IOException{
-		Document documento;
-		documento = obtenerDocumento(archivo);
+		Document documento = new Document();
+		documento.add(new TextField(Constantes.NombreArchivo, archivo.getName(), Field.Store.YES));
+		documento.add(new TextField(Constantes.ContenidoArchivo,ObtenerContenido(archivo),Field.Store.YES));
 		indice.addDocument(documento);
 	}
 	
-	/**
-	 * A medida que indexa la barra se irá rellenando
-	 * @param barra
-	 * @throws IOException
-	 */
+	
 	public void crearIndice(JProgressBar barra, JLabel indexando) throws IOException{
-		double porcentaje;	
+		double porcentaje;
 		for(int i = 0; i < Constantes.ListaDocumentosAlmacenados.size() ; i++) {
 			if(!FueIndexado(Constantes.ListaDocumentosAlmacenados.get(i).getName())) { //Comprueba si el documento ya fue indexado.	
 				
@@ -111,6 +91,22 @@ public class Indexador {
 		return false;
 	}
 	
+	public String ObtenerContenido(File documento) {
+		String contenido = "";
+		PDDocument doc = null;
+		try {
+		    doc = PDDocument.load(documento);
+		    PDFTextStripper s = new PDFTextStripper();
+
+		    s.setLineSeparator("\n");
+		    s.setStartPage(1);
+		    s.setEndPage(doc.getNumberOfPages());
+		    contenido = s.getText(doc);
+		    
+		    doc.close();
+		} catch(Exception e){e.printStackTrace();}
+		return contenido;
+	}
 	
 	
 }

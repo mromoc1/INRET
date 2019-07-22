@@ -46,7 +46,7 @@ public class Almacenamiento {
 				CargarListaDocumentosAlmacenados(ficheroEntrada);
 	        }else{
 	        	String nombre = ficheroEntrada.getName();
-	        	if(nombre.endsWith(".pdf") || nombre.endsWith(".txt") ) {
+	        	if(nombre.endsWith(".pdf") || nombre.endsWith(".PDF") ) {
 	        		Constantes.ListaDocumentosAlmacenados.add(ficheroEntrada);
 	        	}
 	        }

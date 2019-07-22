@@ -1,6 +1,7 @@
 package Controlador;
 
 import java.awt.Desktop;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,6 +13,8 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 
@@ -21,10 +24,11 @@ import Modelo.BuscarEnDocumento;
 import Modelo.Constantes;
 import Modelo.ModeloTabla;
 import Vista.Informaciones;
+import Vista.Matches;
 import Vista.Principal;
 
 public class ControladorVentanaPrincipal implements ActionListener,KeyListener,MouseListener {
-	//String palabrabuscada;
+	String palabrabuscada;
 	Principal ventana;
 	Almacenamiento almacenamiento = new Almacenamiento();
 	
@@ -53,8 +57,10 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 		this.ventana.iconoinformacion.addMouseListener(this);
 	}
 	
+	/**
+	 * INICIALIZA LA VENTANA PRINCIPAL Y LA TABLA
+	 */
 	public void Inicializar(){
-		
 		ModeloTabla modelo = new ModeloTabla();
 		modelo.addColumn("Documentos Almacenados: "+Constantes.ListaDocumentosAlmacenados.size());
 		String[] test = new String[1];
@@ -110,15 +116,21 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 			if(e.getClickCount() == 1) {}
 			if(e.getClickCount() == 2) {
 				almacenamiento.AbrirDocumento(Constantes.ListaDocumentosBuscados.get(ventana.tablaEncontrados.getSelectedRow()), new File(Constantes.DirectorioDocumentos));
-				
-				/*for(int i = 0; i< Constantes.ListaDocumentosAlmacenados.size(); i++) {
-					if(Constantes.ListaDocumentosAlmacenados.get(i).getName().equals(Constantes.ListaDocumentosBuscados.get(ventana.tablaEncontrados.getSelectedRow()))) {
-						BuscarEnDocumento documento = new BuscarEnDocumento();
-						documento.Buscar(palabrabuscada, Constantes.ListaDocumentosAlmacenados.get(i));
-					}
-				}*/
-				
 			}
+			if ( SwingUtilities.isRightMouseButton(e)) {
+                 Point p = e.getPoint();
+                 int n = this.ventana.tablaEncontrados.rowAtPoint( p );
+                 ListSelectionModel modelo = this.ventana.tablaEncontrados.getSelectionModel();
+                 modelo.setSelectionInterval( n, n );
+                 BuscarEnDocumento documento =new BuscarEnDocumento();
+				try {
+					Matches ventana = new Matches();
+					ControladorVentanaMatches controlador = new ControladorVentanaMatches(ventana);
+					controlador.Inicializar(documento.ObtenerDatos(palabrabuscada, Constantes.ListaDocumentosBuscados.get(this.ventana.tablaEncontrados.getSelectedRow())));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+             }
 		}
 		
 	}
@@ -132,7 +144,7 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 				buscador = new Buscador();
 				try {
 					buscador.RealizarBusqueda(this.ventana.campoBuscar.getText());
-					//palabrabuscada = this.ventana.campoBuscar.getText();
+					palabrabuscada = this.ventana.campoBuscar.getText();
 					ModeloTabla modelo = new ModeloTabla();
 					modelo.addColumn("Documentos Recomendados: "+Constantes.ListaDocumentosBuscados.size());
 					String[] test = new String[1];
@@ -202,5 +214,9 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	public void mousePressed(MouseEvent e) {}
-	public void mouseReleased(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {
+		int r = this.ventana.tablaEncontrados.rowAtPoint(e.getPoint());
+		if (r >= 0 && r < this.ventana.tablaEncontrados.getRowCount())
+			this.ventana.tablaEncontrados.setRowSelectionInterval(r, r);
+	}
 }
