@@ -20,8 +20,6 @@ import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import java.awt.Cursor;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Principal extends JFrame {
 	private Font Titulof = new Font("Century Gothic", Font.PLAIN, 35);
@@ -36,7 +34,6 @@ public class Principal extends JFrame {
 	public JButton boton1, boton2, boton3, boton4, boton5, boton6, boton7, boton8, boton9, boton10, boton11, boton12, boton13;
 	
 	public Principal() {
-		setBounds(100, 100, 1000, 600);
 		getContentPane().add(PanelNorte() , BorderLayout.NORTH);
 		getContentPane().add(PanelCentral() , BorderLayout.CENTER);
 		
@@ -103,7 +100,7 @@ public class Principal extends JFrame {
 		iconocarpeta.setVerticalAlignment(SwingConstants.BOTTOM);
 		iconocarpeta.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_3.add(iconocarpeta);
-		iconocarpeta.setIcon(new ImageIcon(getClass().getResource("/Imagenes/Logo Carpeta/icons8-carpeta-48.png")));
+		iconocarpeta.setIcon(new ImageIcon(getClass().getResource("/Imagenes/Logo carpeta/icons8-carpeta-48.png")));
 		iconoinformacion = new JLabel("");
 		iconoinformacion.setHorizontalAlignment(SwingConstants.CENTER);
 		iconoinformacion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

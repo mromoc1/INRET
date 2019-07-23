@@ -21,10 +21,6 @@ public class Buscador {
 	QueryParser analizarconsulta;
 	Query consulta;
 	
-	/**
-	 * Metodo constructor inicializa las variables
-	 * @throws IOException
-	 */
 	public Buscador() throws IOException {
 		Directory directorioindice = FSDirectory.open(Paths.get(Constantes.DirectorioIndice));
 		IndexReader lector = DirectoryReader.open(directorioindice);
@@ -42,19 +38,28 @@ public class Buscador {
 	public Document obtenerDocumento(ScoreDoc sd) throws IOException {
 		return indicebuscador.doc(sd.doc);
 	}
-	
 	/**
-	 * Metodo con el que podemos buscar y que utiliza los demas metodos
+	 * Metodo principal de la clase, realiza la busqueda en los indices.
+	 * 
+	 * 1.- realiza la busqueda rapidamente con el metodo buscar que retorna los documentos en los que hay hit.
+	 * 2.- Se vacia la estructura de documentos buscados.
+	 * 3.- Por cada hit encontrado, se consuta si el documento no ha sido borra.
+	 * 4.- Si no ha sido borrado se ingresa a la lista de documentos recomendados.
+	 * 
 	 * @param contenidoabuscar
 	 * @throws ParseException
 	 * @throws IOException
 	 */
 	public void RealizarBusqueda(String contenidoabuscar) throws ParseException, IOException {
+		//1
 		TopDocs hits = buscar(contenidoabuscar);
+		//2
 		Constantes.ListaDocumentosBuscados.clear();
+		//3
 		for(ScoreDoc sd : hits.scoreDocs) {
 			Document doc = obtenerDocumento(sd);
 			if(EstaAlmacenado(doc.get(Constantes.NombreArchivo))) {
+				//4
 				Constantes.ListaDocumentosBuscados.add(doc.get(Constantes.NombreArchivo));
 			}
 		}
@@ -68,6 +73,4 @@ public class Buscador {
 		}
 		return false;
 	}
-	
-
 }

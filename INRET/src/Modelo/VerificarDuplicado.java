@@ -52,27 +52,27 @@ public class VerificarDuplicado {
 		return md5;
 	}
 
+
 	/**
-	 * Metodo principal que nos permite identificar si hay documentos duplicados.
-	 * 
+	 * Metodo Principal de la clase.
+	 * 1.- Para cada documento se obtienene el MD5
+	 * 2.- Consulta si la estructura hashmap contiene la key del archivo que esta ingresando.
+	 * Tambien consulta si fue indxado (si fue indexado no pregunta para eliminarlo).
+	 * 3.- Si es un duplicado y se requiere eliminar, se elimina y se da a conocer que se debe reescanear la carpeta de documentos.
+	 * 4.- Si no es un duplicado se guarda en la estructura hashmap y continua con el proximo documento.
 	 * @param ListaDocumentos
 	 * @return
 	 */
 	public Boolean BuscarDuplicados(ArrayList<File> ListaDocumentos) {
-		// nos indica si requiere o no comprobar nuevamente los archivos almacenados, ya
-		// que es probable que este metodo elimine algunos.
 		Boolean requierecambio = false;
-		// Estructura que nos permite identificar aquellosdocumentos con un MD5 similar
 		HashMap<String, String> hashmap = new HashMap<String, String>();
-
 		for (int i = 0; i < ListaDocumentos.size(); i++) {
 			try {
-				// Obtiene el MD5de cada documento
+				//1
 				String md5 = getMD5(ListaDocumentos.get(i).getPath());
-				// Comprueba que el documento no haya sido agregado
-				if (hashmap.containsKey(md5) && !FueIndexado( ListaDocumentos.get(i).getName())) {
-					// Si ya ha sido agregado nos consulta si queremos eliminarlo porque es un
-					// duplicado.
+				//2
+				if (hashmap.containsKey(md5) && !Constantes.ListaDocumentosIndexados.contains(ListaDocumentos.get(i).getName())/*!FueIndexado( ListaDocumentos.get(i).getName())*/) {
+					//3
 					int r = JOptionPane.showConfirmDialog(null,"  Tiene un archivo duplicado \n  " + ListaDocumentos.get(i).getName()+ "  \n  ¿Desea Eliminarlo?  ","Problema Encontrado", JOptionPane.WARNING_MESSAGE);
 					if (r == JOptionPane.YES_OPTION) {
 						File duplicado = new File(ListaDocumentos.get(i).getPath());
@@ -80,6 +80,7 @@ public class VerificarDuplicado {
 						requierecambio = true;
 					}
 				} else {
+					//4
 					hashmap.put(md5, ListaDocumentos.get(i).getPath());
 				}
 			} catch (Exception e) {
@@ -87,14 +88,5 @@ public class VerificarDuplicado {
 			}
 		}
 		return requierecambio;
-	}
-	
-	public Boolean FueIndexado(String nombredocumento) {
-		for(int i=0; i < Constantes.ListaDocumentosIndexados.size(); i++) {
-			if(Constantes.ListaDocumentosIndexados.get(i).equals(nombredocumento)) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

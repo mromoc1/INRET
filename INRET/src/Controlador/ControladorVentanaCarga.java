@@ -1,8 +1,10 @@
  package Controlador;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import Modelo.Almacenamiento;
@@ -31,6 +33,10 @@ public class ControladorVentanaCarga {
 		/**
 		 * 1
 		 */
+		ImageIcon icono = new ImageIcon(getClass().getResource("/Imagenes/Logo app/hexagon_eye_center_server_networking_icon-icons.com_59973 (1).png"));
+		Image imagen = icono.getImage();
+		ventana.setIconImage(imagen);
+		
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventana.setSize(497, 193);
 		ventana.setUndecorated(true);

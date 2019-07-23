@@ -1,7 +1,7 @@
 package Controlador;
 
 import java.awt.Desktop;
-import java.awt.Point;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -11,9 +11,8 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -57,10 +56,16 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 		this.ventana.iconoinformacion.addMouseListener(this);
 	}
 	
-	/**
-	 * INICIALIZA LA VENTANA PRINCIPAL Y LA TABLA
-	 */
 	public void Inicializar(){
+		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ventana.setSize(1000, 650);
+		ventana.setLocationRelativeTo(null);
+		ventana.setTitle(".:: INRET ::.");
+		
+		ImageIcon icono = new ImageIcon(getClass().getResource("/Imagenes/Logo app/hexagon_eye_center_server_networking_icon-icons.com_59973 (1).png"));
+		Image imagen = icono.getImage();
+		ventana.setIconImage(imagen);
+		
 		ModeloTabla modelo = new ModeloTabla();
 		modelo.addColumn("Documentos Almacenados: "+Constantes.ListaDocumentosAlmacenados.size());
 		String[] test = new String[1];
@@ -69,14 +74,9 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 			test[0] = Constantes.ListaDocumentosAlmacenados.get(i).getName();
 			modelo.addRow(test);
 		}
-		
 		ventana.tablaAlmacenamiento.setModel(modelo);
 		
-
-		ventana.setLocationRelativeTo(null);
 		ventana.setVisible(true);
-		ventana.setSize(1000, 650);
-		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -117,23 +117,29 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 			if(e.getClickCount() == 2) {
 				almacenamiento.AbrirDocumento(Constantes.ListaDocumentosBuscados.get(ventana.tablaEncontrados.getSelectedRow()), new File(Constantes.DirectorioDocumentos));
 			}
-			if ( SwingUtilities.isRightMouseButton(e)) {
-                 Point p = e.getPoint();
-                 int n = this.ventana.tablaEncontrados.rowAtPoint( p );
-                 ListSelectionModel modelo = this.ventana.tablaEncontrados.getSelectionModel();
-                 modelo.setSelectionInterval( n, n );
-                 BuscarEnDocumento documento =new BuscarEnDocumento();
-				try {
-					Matches ventana = new Matches();
-					ControladorVentanaMatches controlador = new ControladorVentanaMatches(ventana);
-					controlador.Inicializar(documento.ObtenerDatos(palabrabuscada, Constantes.ListaDocumentosBuscados.get(this.ventana.tablaEncontrados.getSelectedRow())));
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-             }
 		}
 		
 	}
+	
+	public void mousePressed(MouseEvent e) {
+		if(e.getSource() == ventana.tablaEncontrados) {
+			int r = this.ventana.tablaEncontrados.rowAtPoint(e.getPoint());
+			if (r >= 0 && r < this.ventana.tablaEncontrados.getRowCount())
+				this.ventana.tablaEncontrados.setRowSelectionInterval(r, r);
+			
+			if ( SwingUtilities.isRightMouseButton(e)) {
+                BuscarEnDocumento documento =new BuscarEnDocumento();
+				try {
+					Matches ventana = new Matches();
+					ControladorVentanaMatches controlador = new ControladorVentanaMatches(ventana);
+					controlador.Inicializar(documento.ObtenerDatos(palabrabuscada, Constantes.ListaDocumentosBuscados.get(this.ventana.tablaEncontrados.getSelectedRow())),Constantes.ListaDocumentosBuscados.get(this.ventana.tablaEncontrados.getSelectedRow()),palabrabuscada);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	/**
 	 * ACCION AL PULSAR ENTER EN CAMPO DE TEXTO
 	 */
@@ -213,10 +219,5 @@ public class ControladorVentanaPrincipal implements ActionListener,KeyListener,M
 	public void keyTyped(KeyEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
-	public void mousePressed(MouseEvent e) {}
-	public void mouseReleased(MouseEvent e) {
-		int r = this.ventana.tablaEncontrados.rowAtPoint(e.getPoint());
-		if (r >= 0 && r < this.ventana.tablaEncontrados.getRowCount())
-			this.ventana.tablaEncontrados.setRowSelectionInterval(r, r);
-	}
+	public void mouseReleased(MouseEvent e) {}
 }

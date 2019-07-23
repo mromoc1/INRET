@@ -3,6 +3,7 @@ package Modelo;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -13,14 +14,19 @@ public class BuscarEnDocumento {
     	ArrayList<Integer> paginas = new ArrayList<Integer>();
     	PDDocument documento = PDDocument.load(new File("Documentos/"+rutadocumento));
 
-    	for(int i=1; i < documento.getNumberOfPages(); i++) {
-    		PDFTextStripper s = new PDFTextStripper();
-    		s.setStartPage(i);
-            s.setEndPage(i);
-            String contenido = s.getText(documento);
-            if(contenido.contains(cadena) || contenido.contains(Character.toUpperCase(cadena.charAt(0)) + cadena.substring(1, cadena.length()).toLowerCase())) {
-    	    	paginas.add(i);
-    	    }
+    	StringTokenizer st =new StringTokenizer(cadena);
+    	while (st.hasMoreElements()) {
+    		String token = st.nextElement().toString();
+    		for(int i=1; i < documento.getNumberOfPages(); i++) {
+        		PDFTextStripper s = new PDFTextStripper();
+        		s.setStartPage(i);
+                s.setEndPage(i);
+                String contenido = s.getText(documento);
+                if(contenido.contains(token) || contenido.contains(Character.toUpperCase(token.charAt(0)) + token.substring(1, token.length()).toLowerCase())) {
+        	    	paginas.add(i);
+        	    }
+        	}
+    		paginas.add(0);
     	}
     	documento.close();
         return paginas;
